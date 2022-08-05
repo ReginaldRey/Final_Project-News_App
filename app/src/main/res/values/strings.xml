@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Final Project - News App</string>
+    <string name="page_title">BBC News Reader</string>
 </resources>

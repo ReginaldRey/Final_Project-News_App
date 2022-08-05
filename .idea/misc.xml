@@ -3,7 +3,10 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/aregi/AndroidStudioProjects/FinalProjectNewsApp/app/src/main/res/layout/activity_article_display_layout.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/aregi/AndroidStudioProjects/FinalProjectNewsApp/app/src/main/res/layout/activity_main.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/aregi/AndroidStudioProjects/FinalProjectNewsApp/app/src/main/res/layout/activity_saved_articles.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/aregi/AndroidStudioProjects/FinalProjectNewsApp/app/src/main/res/layout/rsslist.xml" value="0.18984375" />
       </map>
     </option>
   </component>
