@@ -4,9 +4,12 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Users/aregi/AndroidStudioProjects/FinalProjectNewsApp/app/src/main/res/layout/activity_article_display_layout.xml" value="0.25416666666666665" />
-        <entry key="..\:/Users/aregi/AndroidStudioProjects/FinalProjectNewsApp/app/src/main/res/layout/activity_main.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/aregi/AndroidStudioProjects/FinalProjectNewsApp/app/src/main/res/layout/activity_main.xml" value="0.1" />
         <entry key="..\:/Users/aregi/AndroidStudioProjects/FinalProjectNewsApp/app/src/main/res/layout/activity_saved_articles.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/aregi/AndroidStudioProjects/FinalProjectNewsApp/app/src/main/res/layout/header_layout.xml" value="0.253125" />
         <entry key="..\:/Users/aregi/AndroidStudioProjects/FinalProjectNewsApp/app/src/main/res/layout/rsslist.xml" value="0.18984375" />
+        <entry key="..\:/Users/aregi/AndroidStudioProjects/FinalProjectNewsApp/app/src/main/res/menu/nav_menu.xml" value="0.253125" />
+        <entry key="..\:/Users/aregi/AndroidStudioProjects/FinalProjectNewsApp/app/src/main/res/menu/toolbar_menu.xml" value="0.253125" />
       </map>
     </option>
   </component>
@@ -15,5 +18,12 @@
   </component>
   <component name="ProjectType">
     <option name="id" value="Android" />
+  </component>
+  <component name="VisualizationToolProject">
+    <option name="state">
+      <ProjectState>
+        <option name="scale" value="0.253125" />
+      </ProjectState>
+    </option>
   </component>
 </project>

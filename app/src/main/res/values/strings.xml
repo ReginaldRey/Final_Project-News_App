@@ -7,4 +7,9 @@
     <string name="delete_question">Would you like to delete this article?</string>
     <string name="pos_delete_button">Yes</string>
     <string name="neg_delete_button">No</string>
+    <string name="header_project_message">BBC News Reader</string>
+    <string name="version_message">Version 1</string>
+    <string name="creator_name">Alex Régimbald</string>
+    <string name="open">Open</string>
+    <string name="close">Close</string>
 </resources>

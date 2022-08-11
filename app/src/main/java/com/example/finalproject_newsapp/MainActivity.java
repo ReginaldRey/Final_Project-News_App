@@ -1,7 +1,12 @@
 package com.example.finalproject_newsapp;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
@@ -22,11 +27,17 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.google.android.material.navigation.NavigationView;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -37,7 +48,7 @@ import java.nio.channels.AsynchronousChannelGroup;
 import java.sql.Array;
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     ListView feed;
     ArrayList<String> titles;
@@ -61,9 +72,24 @@ public class MainActivity extends AppCompatActivity {
 
         adapter = new ArrayAdapter<String>(MainActivity.this, android.R.layout.simple_list_item_1, titles);
 
+        HTTPRequest req = new HTTPRequest();
+        req.execute();
+
         AlertDialog.Builder alertDIalogBuilder = new AlertDialog.Builder(this);
 
         dbOpener dbOpener = new dbOpener(MainActivity.this);
+
+        Toolbar tBar = findViewById(R.id.toolbar);
+        setSupportActionBar(tBar);
+
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this,
+                drawer, tBar, R.string.open, R.string.close);
+        drawer.addDrawerListener(toggle);
+        toggle.syncState();
+
+        NavigationView navigationView = findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
 
         feed.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -98,9 +124,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        HTTPRequest req = new HTTPRequest();
-        req.execute();
-
     }
 
     public InputStream getInputStream(URL url) {
@@ -110,6 +133,57 @@ public class MainActivity extends AppCompatActivity {
             e.printStackTrace();
             return null;
         }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.toolbar_menu, menu);
+
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch(item.getItemId())
+        {
+            case R.id.home:
+                Intent intent2 = new Intent(MainActivity.this, MainActivity.class);
+                startActivityForResult(intent2, 0);
+                break;
+            case R.id.saved:
+                Intent intent = new Intent(MainActivity.this, SavedArticles.class);
+                startActivityForResult(intent, 0);
+                break;
+            case R.id.exit:
+                finishAffinity();
+                break;
+
+        }
+        return true;
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(MenuItem item) {
+        switch(item.getItemId())
+        {
+            case R.id.Saved_articles:
+                Intent intent = new Intent(MainActivity.this, SavedArticles.class);
+                startActivityForResult(intent, 0);
+
+                break;
+            case R.id.Home:
+                Intent intent2 = new Intent(MainActivity.this, MainActivity.class);
+                startActivityForResult(intent2, 0);
+                break;
+            case R.id.exit:
+                finishAffinity();
+
+        }
+        DrawerLayout drawerLayout = findViewById(R.id.drawer_layout);
+        drawerLayout.closeDrawer(GravityCompat.START);
+
+        return false;
     }
 
     private class HTTPRequest extends AsyncTask<String, Integer, String> {

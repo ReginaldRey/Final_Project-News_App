@@ -63,7 +63,7 @@ public class dbOpener extends SQLiteOpenHelper {
 
     void deleteRow(String name) {
         SQLiteDatabase db = this.getWritableDatabase();
-        String whereClause = "ITEM=?";
+        String whereClause = "TITLE=?";
         String[] whereArgs = new String[]{String.valueOf(name)};
         db.delete(TABLE_NAME, whereClause, whereArgs);
     }

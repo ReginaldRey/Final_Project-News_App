@@ -8,4 +8,9 @@
     <string name="delete_question">Voulez-vous effacer cette article?</string>
     <string name="pos_delete_button">Oui</string>
     <string name="neg_delete_button">Non</string>
+    <string name="header_project_message">Lecteur de nouvelles de la BBC</string>
+    <string name="version_message">Version 1</string>
+    <string name="creator_name">Alex Régimbald</string>
+    <string name="open">Ouvrir</string>
+    <string name="close">Fermer</string>
 </resources>
