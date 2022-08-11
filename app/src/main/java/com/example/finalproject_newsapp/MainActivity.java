@@ -1,5 +1,6 @@
 package com.example.finalproject_newsapp;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import javax.xml.parsers.ParserConfigurationException;
@@ -16,6 +17,7 @@ import org.xmlpull.v1.XmlPullParserException;
 import org.xmlpull.v1.XmlPullParserFactory;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -43,6 +45,8 @@ public class MainActivity extends AppCompatActivity {
     ArrayList<String> description;
     ArrayList<String> date;
 
+    ArrayAdapter<String> adapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,12 +59,42 @@ public class MainActivity extends AppCompatActivity {
         date = new ArrayList<String>();
         description = new ArrayList<String>();
 
+        adapter = new ArrayAdapter<String>(MainActivity.this, android.R.layout.simple_list_item_1, titles);
+
+        AlertDialog.Builder alertDIalogBuilder = new AlertDialog.Builder(this);
+
+        dbOpener dbOpener = new dbOpener(MainActivity.this);
+
         feed.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Uri uri = Uri.parse(links.get(position));
-                Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-                startActivity(intent);
+
+                String title = getString(R.string.alert_dialogue_title);
+                String pos_button = getString(R.string.pos_button);
+                String neg_button = getString(R.string.neg_button);
+                alertDIalogBuilder.setTitle(title);
+                alertDIalogBuilder.setPositiveButton(pos_button, (click, arg) -> {
+                    String article_title = (titles.get(position));
+                    String article_link = (links.get(position));
+                    String article_description = (description.get(position));
+                    String article_date = (date.get(position));
+                    dbOpener.addItem(article_title, article_link, article_description, article_date);
+
+                    Uri uri = Uri.parse(links.get(position));
+                    Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                    startActivity(intent);
+
+                });
+                alertDIalogBuilder.setNegativeButton(neg_button, (click, arg) -> {
+
+                    Uri uri = Uri.parse(links.get(position));
+                    Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                    startActivity(intent);
+
+                });
+                alertDIalogBuilder.create();
+                alertDIalogBuilder.show();
+
             }
         });
 
@@ -84,7 +118,7 @@ public class MainActivity extends AppCompatActivity {
         protected String doInBackground(String... args) {
 
             try {
-                URL url = new URL("http://feeds.bbci.co.uk/news/world/us_and_canada/rss.xml");
+                URL url = new URL("https://feeds.bbci.co.uk/news/world/us_and_canada/rss.xml");
                 HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
                 InputStream response = urlConnection.getInputStream();
                 XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
@@ -148,7 +182,6 @@ public class MainActivity extends AppCompatActivity {
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
 
-            ArrayAdapter<String> adapter = new ArrayAdapter<String>(MainActivity.this, android.R.layout.simple_list_item_1, titles);
             feed.setAdapter(adapter);
         }
 

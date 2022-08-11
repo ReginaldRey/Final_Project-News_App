@@ -2,4 +2,10 @@
 <resources>
     <string name="app_name">Final Project - News App</string>
     <string name="page_title">Nouvelles de BBC</string>
+    <string name="alert_dialogue_title">Voulez-vous sauve-garder cette article?</string>
+    <string name="pos_button">Oui</string>
+    <string name="neg_button">Non</string>
+    <string name="delete_question">Voulez-vous effacer cette article?</string>
+    <string name="pos_delete_button">Oui</string>
+    <string name="neg_delete_button">Non</string>
 </resources>
