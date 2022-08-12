@@ -18,9 +18,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import com.google.android.material.navigation.NavigationView;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
 
@@ -35,6 +37,8 @@ public class SavedArticles extends MainActivity {
 
     ArrayAdapter second_adapter;
 
+    LinearLayout window;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,6 +47,8 @@ public class SavedArticles extends MainActivity {
         AlertDialog.Builder alertDIalogBuilder = new AlertDialog.Builder(this);
 
         saved_feed = (ListView) findViewById(R.id.saved_list);
+
+        window = findViewById(R.id.window);
 
         saved_Titles = new ArrayList<String>();
         saved_Links = new ArrayList<String>();
@@ -89,6 +95,9 @@ public class SavedArticles extends MainActivity {
         }
 
         saved_feed.setAdapter(second_adapter);
+
+        Snackbar snackbar = Snackbar.make(window,getString(R.string.snackbar_message),Snackbar.LENGTH_SHORT);
+        snackbar.show();
 
         saved_feed.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

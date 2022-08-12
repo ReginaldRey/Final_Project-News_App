@@ -12,4 +12,7 @@
     <string name="creator_name">Alex Régimbald</string>
     <string name="open">Open</string>
     <string name="close">Close</string>
+    <string name="button">Refresh</string>
+    <string name="toast_message">Articles downloaded</string>
+    <string name="snackbar_message">Saved articles loaded</string>
 </resources>

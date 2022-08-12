@@ -13,4 +13,7 @@
     <string name="creator_name">Alex Régimbald</string>
     <string name="open">Ouvrir</string>
     <string name="close">Fermer</string>
+    <string name="button">Rafraichir</string>
+    <string name="toast_message">Articles téléchargés</string>
+    <string name="snackbar_message">Chargement des articles sauvegardés</string>
 </resources>

@@ -21,7 +21,9 @@ import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 import org.xmlpull.v1.XmlPullParserFactory;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -33,6 +35,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -46,7 +50,9 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.channels.AsynchronousChannelGroup;
 import java.sql.Array;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -56,12 +62,21 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     ArrayList<String> description;
     ArrayList<String> date;
 
+    Button refresh;
+
     ArrayAdapter<String> adapter;
+
+    SharedPreferences prefs = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        SimpleDateFormat simpleDate =  new SimpleDateFormat("dd/MM/yyyy");
+        String strDt = simpleDate.toString();
+
+        prefs = getSharedPreferences("FileName", Context.MODE_PRIVATE);
 
         feed = (ListView) findViewById(R.id.list);
 
@@ -70,10 +85,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         date = new ArrayList<String>();
         description = new ArrayList<String>();
 
+        refresh = findViewById(R.id.refresh);
+
         adapter = new ArrayAdapter<String>(MainActivity.this, android.R.layout.simple_list_item_1, titles);
 
         HTTPRequest req = new HTTPRequest();
         req.execute();
+
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putString("Date", strDt);
+        editor.commit();
 
         AlertDialog.Builder alertDIalogBuilder = new AlertDialog.Builder(this);
 
@@ -90,6 +111,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        refresh.setOnClickListener( new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                new HTTPRequest().execute();
+                Toast.makeText(MainActivity.this,getString(R.string.toast_message) + strDt,Toast.LENGTH_SHORT).show();
+            }
+        });
 
         feed.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -257,6 +287,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             super.onPostExecute(s);
 
             feed.setAdapter(adapter);
+
         }
 
     }
