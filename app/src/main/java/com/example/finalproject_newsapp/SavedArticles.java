@@ -28,6 +28,9 @@ import java.util.ArrayList;
 
 public class SavedArticles extends MainActivity {
 
+    /* Declare necessary variables to display articles that the user has saved, including arraylists with saved
+    * data (e.g. titles), a second adapter to load the second ListView, and a new LinearLayout for use with the
+    * snackbar. */
     ListView saved_feed;
 
     ArrayList<String> saved_Titles;
@@ -44,6 +47,9 @@ public class SavedArticles extends MainActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_saved_articles);
 
+        /* Instantiate new dialog builder, the linearlayout, arraylists, adapter, and database opener in order
+        * to be able to retrieve the saved articles from the MYSQL database. */
+
         AlertDialog.Builder alertDIalogBuilder = new AlertDialog.Builder(this);
 
         saved_feed = (ListView) findViewById(R.id.saved_list);
@@ -59,6 +65,9 @@ public class SavedArticles extends MainActivity {
 
         dbOpener dbOpener = new dbOpener(SavedArticles.this);
 
+        /* Create the same toolbar and nav bar as used in the main activity for display on the saved articles
+        * layout. */
+
         Toolbar tBar = findViewById(R.id.toolbar);
         setSupportActionBar(tBar);
 
@@ -71,8 +80,15 @@ public class SavedArticles extends MainActivity {
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+        /* Create new cursor for use in retrieving the data from the database. */
+
         Cursor cursor;
         Cursor c = dbOpener.readData();
+
+        /* Using the cursor, retrieve the information from each of the database columns (e.g. title) and
+        * load them into variables for storage, then converting those variables to new string variables, loading
+        * them into the arraylists for use in the ListView display, then setting the adapter to update the
+        * view. */
 
         cursor = dbOpener.readData();
         int titleColIndex = cursor.getColumnIndex(dbOpener.COL_TITLE);
@@ -96,8 +112,13 @@ public class SavedArticles extends MainActivity {
 
         saved_feed.setAdapter(second_adapter);
 
+        /* Create snackbar message to advise the user that the saved articles have been loaded. */
+
         Snackbar snackbar = Snackbar.make(window,getString(R.string.snackbar_message),Snackbar.LENGTH_SHORT);
         snackbar.show();
+
+        /* Create click listener for elements in the saved articles to be both opened and an option provided
+        * to the user whether to delete them or not. If they are not deleted they are simply opened. */
 
         saved_feed.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -127,6 +148,8 @@ public class SavedArticles extends MainActivity {
 
             }
         });
+
+        /* Print cursor for debugging purposes if necessary. */
 
         dbOpener.printCursor(c);
 

@@ -14,6 +14,8 @@ import java.util.Arrays;
 
 public class dbOpener extends SQLiteOpenHelper {
 
+    /* Create database and column values using extended methods from SQLiteOpenHelper. */
+
     protected final static String DATABASE_NAME = "bbcArticlesDB";
     protected final static int VERSION_NUM = 1;
     public final static String TABLE_NAME = "BBC_ARTICLES";
@@ -31,6 +33,8 @@ public class dbOpener extends SQLiteOpenHelper {
         this.ctx = ctx;
     }
 
+    /* Creates database if one does not already exist. */
+
     @Override
     public void onCreate(SQLiteDatabase db) {
 
@@ -38,12 +42,16 @@ public class dbOpener extends SQLiteOpenHelper {
                 + " TEXT," + COL_LINKS + " TEXT," + COL_DESCRIPTION + " TEXT," + COL_DATE + " TEXT)");
     }
 
+    /* Upgrades database if one already does exist. */
+
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);
         onCreate(db);
     }
+
+    /* Create addItem function to addItems to the database when user opts to save articles. */
 
     void addItem(String title, String link, String description, String date) {
         SQLiteDatabase db = this.getWritableDatabase();
@@ -55,11 +63,15 @@ public class dbOpener extends SQLiteOpenHelper {
         db.insert(TABLE_NAME, null, cnt);
     }
 
+    /* Creates readData function so that cursor can retrieve all information from the database. */
+
     Cursor readData() {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor results = db.rawQuery("SELECT * from " + TABLE_NAME, null);
         return results;
     }
+
+    /* Creates the deleteRow function to delete items from the database if the user opts to do so. */
 
     void deleteRow(String name) {
         SQLiteDatabase db = this.getWritableDatabase();
@@ -67,6 +79,9 @@ public class dbOpener extends SQLiteOpenHelper {
         String[] whereArgs = new String[]{String.valueOf(name)};
         db.delete(TABLE_NAME, whereClause, whereArgs);
     }
+
+    /* printCursor function to print the results of the cursor query to the command log for
+    * debugging purposes if necessary. */
 
     public void printCursor(Cursor c) {
         SQLiteDatabase db = this.getReadableDatabase();

@@ -55,7 +55,9 @@ import java.util.ArrayList;
 import java.util.Date;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
-
+/* Declares necessary variables for the ListView feed used to display articles, as well as various ArrayLists which will
+* be used to store data from the RSS feed. Additional declarations include the refresh button, sharedpreferences,
+* and the ArrayAdapter */
     ListView feed;
     ArrayList<String> titles;
     ArrayList<String> links;
@@ -73,6 +75,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        /* Instantiating all necessary variables including a date object used for sharedpreferences,
+        * sharedpreferences object itself, the ListView, the arraylists mentioned above, the button, the adapter,
+        * */
+
         SimpleDateFormat simpleDate =  new SimpleDateFormat("dd/MM/yyyy");
         String strDt = simpleDate.toString();
 
@@ -89,12 +95,19 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         adapter = new ArrayAdapter<String>(MainActivity.this, android.R.layout.simple_list_item_1, titles);
 
+        /* Execute AsyncTask to retrieve data from the BBC rss feed */
+
         HTTPRequest req = new HTTPRequest();
         req.execute();
+
+        /* Create a sharedpreferences editor, and save the date object to it. */
 
         SharedPreferences.Editor editor = prefs.edit();
         editor.putString("Date", strDt);
         editor.commit();
+
+        /* Create an alertdialog, database opener, toolbar, navigation drawer, and apply them all
+        * to the main activity layout */
 
         AlertDialog.Builder alertDIalogBuilder = new AlertDialog.Builder(this);
 
@@ -112,6 +125,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+        /* Set on click listener on refresh button to execute a new AsyncTask object whenever clicked.
+        * Added a toast message to advise user when page is properly refreshed. */
+
         refresh.setOnClickListener( new View.OnClickListener() {
 
             @Override
@@ -120,6 +136,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 Toast.makeText(MainActivity.this,getString(R.string.toast_message) + strDt,Toast.LENGTH_SHORT).show();
             }
         });
+
+        /* Set onItemClickListener to give the user the option to save an article when selecting it from
+        * the main activity page. */
 
         feed.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -156,6 +175,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     }
 
+    /* Create function InputStream to open a URL connection to the BBC rss feed. */
+
     public InputStream getInputStream(URL url) {
         try {
             return url.openConnection().getInputStream();
@@ -164,6 +185,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             return null;
         }
     }
+
+    /* Create options menu functions to implement functionality to selecting the menu icons. Intents
+    * are used to travel from one activity to another. */
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -193,6 +217,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return true;
     }
 
+    /* Create navigation menu functions to do the same as above for the nav menu. */
+
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         switch(item.getItemId())
@@ -215,6 +241,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         return false;
     }
+
+    /* Create AsyncTask class to perform http communications during doInBackground as well as
+    * setting the adapter when background functions are completed to update with new ListView items.
+    * Additionally implement parsing method to parse rss feed and upload relevant information (e.g. title)
+    * to ArrayList to be used later when populating the ListView with the adapter. */
 
     private class HTTPRequest extends AsyncTask<String, Integer, String> {
 
